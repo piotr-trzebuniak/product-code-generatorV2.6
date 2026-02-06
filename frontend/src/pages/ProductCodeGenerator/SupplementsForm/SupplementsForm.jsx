@@ -11,17 +11,11 @@ import { Ingredients } from "../../../compoments/Tiptap/Ingredients";
 import { HowToUse } from "../../../compoments/Tiptap/HowToUse";
 import { Contraindications } from "../../../compoments/Tiptap/Contraindications";
 import { AdditionalInformation } from "../../../compoments/Tiptap/AdditionalInformation";
-import SelectProducers from "../../../compoments/SelectProducers/SelectProducers";
-import SelectResponsibleEntity from "../../../compoments/SelectResponsibleEntity/SelectResponsibleEntity";
 import SelectIngredient from "../../../compoments/SelectIngredient/SelectIngredient";
-import { Producer } from "../../../compoments/Tiptap/Producer";
-import { ResponsibleEntity } from "../../../compoments/Tiptap/ResponsibleEntity";
-import { Bulletpoints } from "../../../compoments/Tiptap/Bulletpoints";
 import { useDispatch, useSelector } from "react-redux";
 import { addIngredient, removeIngredient } from "../../../redux/productSlice";
 import { Storage } from "../../../compoments/Tiptap/Storage";
 import { ShortDescription } from "../../../compoments/Tiptap/ShortDescription";
-import SelectCategory from "../../../compoments/SelectCategory/SelectCategory";
 
 const SupplementsForm = ({ resetKey }) => {
   const dispatch = useDispatch();
@@ -56,7 +50,7 @@ const SupplementsForm = ({ resetKey }) => {
       </div>
 
       <div className={style.supplements__grid2}>
-        {/* <LongDescription onReset={resetKey} /> */}
+        <LongDescription onReset={resetKey} />
         <Ingredients onReset={resetKey} />
         <HowToUse onReset={resetKey} />
         <Contraindications onReset={resetKey} />
@@ -70,17 +64,14 @@ const SupplementsForm = ({ resetKey }) => {
           <h4>Lista podmiotów odpowiedzialnych</h4>
           <SelectResponsibleEntity />
         </div> */}
-        <div className={style.supplements__select}>
+        {/* <div className={style.supplements__select}>
           <h4>Lista składników</h4>
           <SelectIngredient />
-           <Bulletpoints initialContent={productData.bulletpoints} />
-        </div>
+          <Bulletpoints initialContent={productData.bulletpoints} />
+        </div> */}
         {/* <Producer initialContent={productData.producer.bl} />
         <ResponsibleEntity initialContent={productData.responsibleEntity.bl} /> */}
-       
-      </div>
-      <div className={style.supplements__category}>
-        <SelectCategory />
+
       </div>
     </div>
   );

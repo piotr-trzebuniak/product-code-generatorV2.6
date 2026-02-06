@@ -42,7 +42,7 @@ const ProductCodeGenerator = () => {
   const [htmlToEbayIt, setHtmlToEbayIt] = useState("");
   const [htmlToShopify, setHtmlToShopify] = useState("");
   const [htmlToEmagRo, setHtmlToEmagRo] = useState("");
-  const [type, setType] = useState("");
+  const [type, setType] = useState("supplements");
   const [type2, setType2] = useState("add");
   const [key, setKey] = useState(0);
   const [description, setDescription] = useState("");
@@ -300,266 +300,266 @@ const ProductCodeGenerator = () => {
 
   // API CONNECTIONS
 
-const callSplitHtmlFromBackend = async (html) => {
-  const API_URL = import.meta.env.VITE_API_URL;
+  const callSplitHtmlFromBackend = async (html) => {
+    const API_URL = import.meta.env.VITE_API_URL;
 
-  try {
-    const response = await fetch(`${API_URL}/split-html`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ html }),
-    });
-
-    if (!response.ok) throw new Error("Błąd podczas parsowania HTML");
-
-    const data = await response.json();
-    
-    return data;
-  } catch (error) {
-    console.error("Błąd pobierania danych z /split-html:", error);
-    toast.error("Nie udało się sparsować HTML na backendzie.");
-    return null;
-  }
-};
-
-
-const sendToGoogleSheets = async () => {
-  setIsSendingToSheets(true);
-  setIsDataSentToSheets(false);
-
-  const API_URL = import.meta.env.VITE_API_URL;
-  if (!API_URL) {
-    toast.error("Brak VITE_API_URL. Ustaw w frontend/.env i na Vercel.");
-    setIsSendingToSheets(false);
-    return;
-  }
-
-  const payloads = [
-    {
-      Sku: productData.productSku,
-      Html: htmlToBl,
-      target: "baselinker",
-      Type: operationType,
-      ProductName: productData.productName.pl,
-    },
-    {
-      Sku: productData.productSku,
-      Html: htmlToEbayDe,
-      ProductName: productData.productName.de,
-      Type: operationType,
-      LogoAndMenu: productData.ebayDE.logoAndMenu,
-      Gallery: productData.ebayDE.gallery,
-      ShortDescription: productData.ebayDE.shortDescription,
-      Bulletpoints: productData.ebayDE.bulletpoints,
-      Icons: productData.ebayDE.icons,
-      LongDescription: productData.ebayDE.longDescription,
-      Research: productData.ebayDE.research,
-      ProductSeries: productData.ebayDE.productSeries,
-      CategoryID: productData.categoryID,
-      target: "ebay-de",
-    },
-    {
-      Sku: productData.productSku,
-      Html: htmlToEbayEn,
-      ProductName: productData.productName.en,
-      Type: operationType,
-      LogoAndMenu: productData.ebayEN.logoAndMenu,
-      Gallery: productData.ebayEN.gallery,
-      ShortDescription: productData.ebayEN.shortDescription,
-      Bulletpoints: productData.ebayEN.bulletpoints,
-      Icons: productData.ebayEN.icons,
-      LongDescription: productData.ebayEN.longDescription,
-      Research: productData.ebayEN.research,
-      ProductSeries: productData.ebayEN.productSeries,
-      CategoryID: productData.categoryID,
-      target: "ebay-en",
-    },
-    {
-      Sku: productData.productSku,
-      Html: htmlToEbayFr,
-      ProductName: productData.productName.fr,
-      Type: operationType,
-      LogoAndMenu: productData.ebayFR.logoAndMenu,
-      Gallery: productData.ebayFR.gallery,
-      ShortDescription: productData.ebayFR.shortDescription,
-      Bulletpoints: productData.ebayFR.bulletpoints,
-      Icons: productData.ebayFR.icons,
-      LongDescription: productData.ebayFR.longDescription,
-      Research: productData.ebayFR.research,
-      ProductSeries: productData.ebayFR.productSeries,
-      CategoryID: productData.categoryID,
-      target: "ebay-fr",
-    },
-    {
-      Sku: productData.productSku,
-      Html: htmlToEbayIt,
-      ProductName: productData.productName.it,
-      Type: operationType,
-      LogoAndMenu: productData.ebayIT.logoAndMenu,
-      Gallery: productData.ebayIT.gallery,
-      ShortDescription: productData.ebayIT.shortDescription,
-      Bulletpoints: productData.ebayIT.bulletpoints,
-      Icons: productData.ebayIT.icons,
-      LongDescription: productData.ebayIT.longDescription,
-      Research: productData.ebayIT.research,
-      ProductSeries: productData.ebayIT.productSeries,
-      CategoryID: productData.categoryID,
-      target: "ebay-it",
-    },
-    {
-      Sku: productData.productSku,
-      Html: htmlToShopify,
-      ProductName: productData.productName.en,
-      target: "shopify",
-    },
-    {
-      Sku: productData.productSku,
-      Html: htmlToEmagRo,
-      ProductName: productData.productName.ro,
-      Type: operationType,
-      target: "emag-ro",
-    },
-  ];
-
-  try {
-    for (const payload of payloads) {
-      toast.info(`Wysyłanie payloadu: ${payload.target}`);
-      console.log("Wysyłanie payloadu:", payload);
-
-      const response = await fetch(`${API_URL}/submit`, {
+    try {
+      const response = await fetch(`${API_URL}/split-html`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ html }),
       });
 
-      const result = await response.json();
+      if (!response.ok) throw new Error("Błąd podczas parsowania HTML");
 
-      if (!response.ok) {
-        throw new Error(result?.message || `Błąd backendu (${response.status})`);
-      }
+      const data = await response.json();
 
-      toast.success(`Wysłano do arkusza ${payload.target}`);
-      console.log(`Wysłano do arkusza ${payload.target}:`, result);
+      return data;
+    } catch (error) {
+      console.error("Błąd pobierania danych z /split-html:", error);
+      toast.error("Nie udało się sparsować HTML na backendzie.");
+      return null;
+    }
+  };
+
+
+  const sendToGoogleSheets = async () => {
+    setIsSendingToSheets(true);
+    setIsDataSentToSheets(false);
+
+    const API_URL = import.meta.env.VITE_API_URL;
+    if (!API_URL) {
+      toast.error("Brak VITE_API_URL. Ustaw w frontend/.env i na Vercel.");
+      setIsSendingToSheets(false);
+      return;
     }
 
-    setIsSendingToSheets(false);
-    setIsDataSentToSheets(true);
-    toast.success("Wszystkie dane zostały poprawnie wysłane do arkuszy!");
-  } catch (error) {
-    console.error("Błąd wysyłania do arkuszy:", error);
-    setIsSendingToSheets(false);
-    toast.error(`Wystąpił błąd: ${error.message || error}`);
-  }
-};
+    const payloads = [
+      {
+        Sku: productData.productSku,
+        Html: htmlToBl,
+        target: "baselinker",
+        Type: operationType,
+        ProductName: productData.productName.pl,
+      },
+      {
+        Sku: productData.productSku,
+        Html: htmlToEbayDe,
+        ProductName: productData.productName.de,
+        Type: operationType,
+        LogoAndMenu: productData.ebayDE.logoAndMenu,
+        Gallery: productData.ebayDE.gallery,
+        ShortDescription: productData.ebayDE.shortDescription,
+        Bulletpoints: productData.ebayDE.bulletpoints,
+        Icons: productData.ebayDE.icons,
+        LongDescription: productData.ebayDE.longDescription,
+        Research: productData.ebayDE.research,
+        ProductSeries: productData.ebayDE.productSeries,
+        CategoryID: productData.categoryID,
+        target: "ebay-de",
+      },
+      {
+        Sku: productData.productSku,
+        Html: htmlToEbayEn,
+        ProductName: productData.productName.en,
+        Type: operationType,
+        LogoAndMenu: productData.ebayEN.logoAndMenu,
+        Gallery: productData.ebayEN.gallery,
+        ShortDescription: productData.ebayEN.shortDescription,
+        Bulletpoints: productData.ebayEN.bulletpoints,
+        Icons: productData.ebayEN.icons,
+        LongDescription: productData.ebayEN.longDescription,
+        Research: productData.ebayEN.research,
+        ProductSeries: productData.ebayEN.productSeries,
+        CategoryID: productData.categoryID,
+        target: "ebay-en",
+      },
+      {
+        Sku: productData.productSku,
+        Html: htmlToEbayFr,
+        ProductName: productData.productName.fr,
+        Type: operationType,
+        LogoAndMenu: productData.ebayFR.logoAndMenu,
+        Gallery: productData.ebayFR.gallery,
+        ShortDescription: productData.ebayFR.shortDescription,
+        Bulletpoints: productData.ebayFR.bulletpoints,
+        Icons: productData.ebayFR.icons,
+        LongDescription: productData.ebayFR.longDescription,
+        Research: productData.ebayFR.research,
+        ProductSeries: productData.ebayFR.productSeries,
+        CategoryID: productData.categoryID,
+        target: "ebay-fr",
+      },
+      {
+        Sku: productData.productSku,
+        Html: htmlToEbayIt,
+        ProductName: productData.productName.it,
+        Type: operationType,
+        LogoAndMenu: productData.ebayIT.logoAndMenu,
+        Gallery: productData.ebayIT.gallery,
+        ShortDescription: productData.ebayIT.shortDescription,
+        Bulletpoints: productData.ebayIT.bulletpoints,
+        Icons: productData.ebayIT.icons,
+        LongDescription: productData.ebayIT.longDescription,
+        Research: productData.ebayIT.research,
+        ProductSeries: productData.ebayIT.productSeries,
+        CategoryID: productData.categoryID,
+        target: "ebay-it",
+      },
+      {
+        Sku: productData.productSku,
+        Html: htmlToShopify,
+        ProductName: productData.productName.en,
+        target: "shopify",
+      },
+      {
+        Sku: productData.productSku,
+        Html: htmlToEmagRo,
+        ProductName: productData.productName.ro,
+        Type: operationType,
+        target: "emag-ro",
+      },
+    ];
 
-const sendToGoogleSheetsOnlyEbay = async () => {
-  setIsSendingToSheets(true);
-  setIsDataSentToSheets(false);
+    try {
+      for (const payload of payloads) {
+        toast.info(`Wysyłanie payloadu: ${payload.target}`);
+        console.log("Wysyłanie payloadu:", payload);
 
-  const API_URL = import.meta.env.VITE_API_URL;
-  if (!API_URL) {
-    toast.error("Brak VITE_API_URL. Ustaw w frontend/.env i na Vercel.");
-    setIsSendingToSheets(false);
-    return;
-  }
+        const response = await fetch(`${API_URL}/submit`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
 
-  const payloads = [
-    {
-      Sku: productData.productSku,
-      Html: htmlToEbayDe,
-      ProductName: productData.productName.de,
-      Type: type,
-      LogoAndMenu: productData.ebayDE.logoAndMenu,
-      Gallery: productData.ebayDE.gallery,
-      ShortDescription: productData.ebayDE.shortDescription,
-      Bulletpoints: productData.ebayDE.bulletpoints,
-      Icons: productData.ebayDE.icons,
-      LongDescription: productData.ebayDE.longDescription,
-      Research: productData.ebayDE.research,
-      ProductSeries: productData.ebayDE.productSeries,
-      CategoryID: productData.categoryID,
-      target: "ebay-de",
-    },
-    {
-      Sku: productData.productSku,
-      Html: htmlToEbayEn,
-      ProductName: productData.productName.en,
-      Type: type,
-      LogoAndMenu: productData.ebayEN.logoAndMenu,
-      Gallery: productData.ebayEN.gallery,
-      ShortDescription: productData.ebayEN.shortDescription,
-      Bulletpoints: productData.ebayEN.bulletpoints,
-      Icons: productData.ebayEN.icons,
-      LongDescription: productData.ebayEN.longDescription,
-      Research: productData.ebayEN.research,
-      ProductSeries: productData.ebayEN.productSeries,
-      CategoryID: productData.categoryID,
-      target: "ebay-en",
-    },
-    {
-      Sku: productData.productSku,
-      Html: htmlToEbayFr,
-      ProductName: productData.productName.fr,
-      Type: type,
-      LogoAndMenu: productData.ebayFR.logoAndMenu,
-      Gallery: productData.ebayFR.gallery,
-      ShortDescription: productData.ebayFR.shortDescription,
-      Bulletpoints: productData.ebayFR.bulletpoints,
-      Icons: productData.ebayFR.icons,
-      LongDescription: productData.ebayFR.longDescription,
-      Research: productData.ebayFR.research,
-      ProductSeries: productData.ebayFR.productSeries,
-      CategoryID: productData.categoryID,
-      target: "ebay-fr",
-    },
-    {
-      Sku: productData.productSku,
-      Html: htmlToEbayIt,
-      ProductName: productData.productName.it,
-      Type: type,
-      LogoAndMenu: productData.ebayIT.logoAndMenu,
-      Gallery: productData.ebayIT.gallery,
-      ShortDescription: productData.ebayIT.shortDescription,
-      Bulletpoints: productData.ebayIT.bulletpoints,
-      Icons: productData.ebayIT.icons,
-      LongDescription: productData.ebayIT.longDescription,
-      Research: productData.ebayIT.research,
-      ProductSeries: productData.ebayIT.productSeries,
-      CategoryID: productData.categoryID,
-      target: "ebay-it",
-    },
-  ];
+        const result = await response.json();
 
-  try {
-    for (const payload of payloads) {
-      toast.info(`Wysyłanie payloadu: ${payload.target}`);
-      console.log("Wysyłanie payloadu:", payload);
+        if (!response.ok) {
+          throw new Error(result?.message || `Błąd backendu (${response.status})`);
+        }
 
-      const response = await fetch(`${API_URL}/submit`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result?.message || `Błąd backendu (${response.status})`);
+        toast.success(`Wysłano do arkusza ${payload.target}`);
+        console.log(`Wysłano do arkusza ${payload.target}:`, result);
       }
 
-      toast.success(`Wysłano do arkusza ${payload.target}`);
-      console.log(`Wysłano do arkusza ${payload.target}:`, result);
+      setIsSendingToSheets(false);
+      setIsDataSentToSheets(true);
+      toast.success("Wszystkie dane zostały poprawnie wysłane do arkuszy!");
+    } catch (error) {
+      console.error("Błąd wysyłania do arkuszy:", error);
+      setIsSendingToSheets(false);
+      toast.error(`Wystąpił błąd: ${error.message || error}`);
+    }
+  };
+
+  const sendToGoogleSheetsOnlyEbay = async () => {
+    setIsSendingToSheets(true);
+    setIsDataSentToSheets(false);
+
+    const API_URL = import.meta.env.VITE_API_URL;
+    if (!API_URL) {
+      toast.error("Brak VITE_API_URL. Ustaw w frontend/.env i na Vercel.");
+      setIsSendingToSheets(false);
+      return;
     }
 
-    setIsSendingToSheets(false);
-    setIsDataSentToSheets(true);
-    toast.success("Wszystkie dane zostały poprawnie wysłane do arkuszy!");
-  } catch (error) {
-    console.error("Błąd wysyłania do arkuszy:", error);
-    setIsSendingToSheets(false);
-    toast.error(`Wystąpił błąd: ${error.message || error}`);
-  }
-};
+    const payloads = [
+      {
+        Sku: productData.productSku,
+        Html: htmlToEbayDe,
+        ProductName: productData.productName.de,
+        Type: type,
+        LogoAndMenu: productData.ebayDE.logoAndMenu,
+        Gallery: productData.ebayDE.gallery,
+        ShortDescription: productData.ebayDE.shortDescription,
+        Bulletpoints: productData.ebayDE.bulletpoints,
+        Icons: productData.ebayDE.icons,
+        LongDescription: productData.ebayDE.longDescription,
+        Research: productData.ebayDE.research,
+        ProductSeries: productData.ebayDE.productSeries,
+        CategoryID: productData.categoryID,
+        target: "ebay-de",
+      },
+      {
+        Sku: productData.productSku,
+        Html: htmlToEbayEn,
+        ProductName: productData.productName.en,
+        Type: type,
+        LogoAndMenu: productData.ebayEN.logoAndMenu,
+        Gallery: productData.ebayEN.gallery,
+        ShortDescription: productData.ebayEN.shortDescription,
+        Bulletpoints: productData.ebayEN.bulletpoints,
+        Icons: productData.ebayEN.icons,
+        LongDescription: productData.ebayEN.longDescription,
+        Research: productData.ebayEN.research,
+        ProductSeries: productData.ebayEN.productSeries,
+        CategoryID: productData.categoryID,
+        target: "ebay-en",
+      },
+      {
+        Sku: productData.productSku,
+        Html: htmlToEbayFr,
+        ProductName: productData.productName.fr,
+        Type: type,
+        LogoAndMenu: productData.ebayFR.logoAndMenu,
+        Gallery: productData.ebayFR.gallery,
+        ShortDescription: productData.ebayFR.shortDescription,
+        Bulletpoints: productData.ebayFR.bulletpoints,
+        Icons: productData.ebayFR.icons,
+        LongDescription: productData.ebayFR.longDescription,
+        Research: productData.ebayFR.research,
+        ProductSeries: productData.ebayFR.productSeries,
+        CategoryID: productData.categoryID,
+        target: "ebay-fr",
+      },
+      {
+        Sku: productData.productSku,
+        Html: htmlToEbayIt,
+        ProductName: productData.productName.it,
+        Type: type,
+        LogoAndMenu: productData.ebayIT.logoAndMenu,
+        Gallery: productData.ebayIT.gallery,
+        ShortDescription: productData.ebayIT.shortDescription,
+        Bulletpoints: productData.ebayIT.bulletpoints,
+        Icons: productData.ebayIT.icons,
+        LongDescription: productData.ebayIT.longDescription,
+        Research: productData.ebayIT.research,
+        ProductSeries: productData.ebayIT.productSeries,
+        CategoryID: productData.categoryID,
+        target: "ebay-it",
+      },
+    ];
+
+    try {
+      for (const payload of payloads) {
+        toast.info(`Wysyłanie payloadu: ${payload.target}`);
+        console.log("Wysyłanie payloadu:", payload);
+
+        const response = await fetch(`${API_URL}/submit`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result?.message || `Błąd backendu (${response.status})`);
+        }
+
+        toast.success(`Wysłano do arkusza ${payload.target}`);
+        console.log(`Wysłano do arkusza ${payload.target}:`, result);
+      }
+
+      setIsSendingToSheets(false);
+      setIsDataSentToSheets(true);
+      toast.success("Wszystkie dane zostały poprawnie wysłane do arkuszy!");
+    } catch (error) {
+      console.error("Błąd wysyłania do arkuszy:", error);
+      setIsSendingToSheets(false);
+      toast.error(`Wystąpił błąd: ${error.message || error}`);
+    }
+  };
 
 
   // SUPPLEMENTS GENERATOR FUNCTION
@@ -672,7 +672,7 @@ const sendToGoogleSheetsOnlyEbay = async () => {
   return (
     <div className={style.generator}>
       <header className={style.generator__header}>
-        <h2>Medpak Code Generator 2.5!!</h2>
+        <h2>Medpak Code Generator 2.6</h2>
         <div className={style["generator__header-btns"]}>
           <Button onClick={() => setType("supplements")}>
             Suplementy diety
@@ -723,19 +723,8 @@ const sendToGoogleSheetsOnlyEbay = async () => {
             <CosmeticsForm resetKey={resetKey} />
           </div>
         )}
-        {((type === "cosmetics" || type === "supplements") && operationType === null) && (
-          <div className={style["generator__header-btns"]}>
-            <Button onClick={() => setOperationType("Nowy produkt")}>
-              Dodawanie nowego produktu
-            </Button>
-            <Button onClick={() => setOperationType("Aktualizacja")}>
-              Aktualizacja istniejącego produktu
-            </Button>
-          </div>
-        )}
 
-
-        {((type === "cosmetics" || type === "supplements") && operationType !== null)
+        {((type === "cosmetics" || type === "supplements"))
           && (
             <>
               <GeneratorBtns

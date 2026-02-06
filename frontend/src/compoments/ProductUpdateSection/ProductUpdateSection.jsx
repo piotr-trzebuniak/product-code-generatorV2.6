@@ -131,7 +131,7 @@ const ProductUpdateSection = () => {
       );
     } catch (e) {
       console.error(e);
-      toast.error("Błąd podczas parsowania HTML.");
+      toast.error(`Błąd podczas parsowania HTML: ${e?.message || "nieznany"}`);
     }
   };
 

@@ -56,7 +56,6 @@ export const validateMandatoryFields = (productData, productType) => {
       Object.assign(mandatoryFields, {
         productSku: 'SKU produktu',
         'productName.pl': 'Nazwa produktu',
-        categoryID: 'Kategoria EBAY', // ← NOWE POLE DODANE
         'size.sizeAmount': 'Wielkość opakowania',
         'size.unit.pl': 'Jednostka opakowania',
         'portion.portionAmount': 'Wielkość porcji',
@@ -66,7 +65,6 @@ export const validateMandatoryFields = (productData, productType) => {
         'shortDescription.pl': 'Krótki opis',
         'ingredients.pl': 'Składniki',
         'howToUse.pl': 'Sposób użycia',
-        'bulletpoints.pl': 'Dlaczego warto stosować?',
         'contraindications.pl': 'Przeciwwskazania',
         'storage.pl': 'Przechowywanie',
         'additionalInformation.pl': 'Dodatkowe informacje',
