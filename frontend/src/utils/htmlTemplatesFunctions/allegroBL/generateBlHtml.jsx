@@ -67,7 +67,7 @@ export const generateSpecialFeaturesList = (specialFeatures) => {
     .map((key) => `<p>⭐ ${featureNames[key]}</p>`)
     .join(""); // skleja <li>...</li> w jeden ciąg
 
-  return list ? `<h2>Cechy specjalne:</h2>${list}` : "";
+  return list ? `<h2>Cechy specjalne</h2>${list}` : "";
 };
 
 function convertListToSection(html) {
@@ -148,13 +148,13 @@ export const generateBlHtml = (productData) => {
     </div>
     <div class="item item-6">
       <section class="text-item">
-        <h2>O produkcie:</h2>
+        <h2>O produkcie</h2>
         <p>Wielkość opakowania:<b> ${productData.size.sizeAmount} ${productData.size.unit.pl
     }</b></p>
         <p>Porcja jednorazowa: <b>${productData.portion.portionAmount} ${productData.portion.unit.pl
     }</b></p>
         <p>Ilość porcji w opakowaniu: <b>${productData.portionQuantity}</b></p>
-        <h2>Sposób użycia:</h2>
+        <h2>Sposób użycia</h2>
         ${productData.howToUse.pl}
       </section>
     </div>
@@ -168,9 +168,9 @@ export const generateBlHtml = (productData) => {
     </div>
     <div class="item item-6">
       <section class="text-item">
-      <h2>Przeciwwskazania:</h2>
+      <h2>Przeciwwskazania</h2>
         ${productData.contraindications.pl}
-        <h2>Przechowywanie:</h2>
+        <h2>Przechowywanie</h2>
         ${productData.storage.pl}
       </section>
     </div>
